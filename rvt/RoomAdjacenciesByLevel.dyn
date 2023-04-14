@@ -1,0 +1,416 @@
+{
+  "Uuid": "00dbbcfa-a8f0-4f5e-92fd-39f66ea162e6",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "RoomAdjacenciesByLevel",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 468,
+      "SelectedString": "OST_Rooms",
+      "NodeType": "ExtensionNode",
+      "Id": "745fab10c6df46a580626b0f67ad4575",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6fffd9091eda4d17b6e794bea4c9cb6e",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "7fc452c7928e4516a4689ad62d9e1f91",
+      "Inputs": [
+        {
+          "Id": "09a2a4ce469d429da2b9c72e10db10ee",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "250f775f78514d329e4dd37fad659b98",
+          "Name": "Elements",
+          "Description": "An element type.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "0.8;",
+      "Id": "b8c83b2bbfb14ffc895c5b57f7829484",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "24b2983d3bb1478aaeb0f9c5e3694756",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "12c4cde0-3fe8-4a48-ae7e-74202be5c2b8",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "37b6abf3a16a454981ef7db51c8074c6",
+      "Inputs": [
+        {
+          "Id": "8cea8c13d0cd43e8a3ee41bc572143ee",
+          "Name": "element",
+          "Description": "Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6ca33c2d3e824952a919b3921f0f57d0",
+          "Name": "ElementCheck",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5fbe0d0bdc604b12b7a31d4ff352344d",
+          "Name": "Tolerance",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5c456940bc30479da84fea6f7b9324d1",
+          "Name": "Set of elements",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get Surrounding Elements by Categories, group them  as  List. Tolerance distance available."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.FamilyType.Name",
+      "Id": "9dbca79385754236820576b3597c1682",
+      "Inputs": [
+        {
+          "Id": "7c56b6a5207d409a802a0f703d6b2a6e",
+          "Name": "familyType",
+          "Description": "Revit.Elements.FamilyType",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "518053966a414da08cbf967750ad994a",
+          "Name": "string",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the name of this Family Type\n\nFamilyType.Name: string"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('RevitAPI')\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB import BuiltInParameter\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\ninput = IN[0] #type: List\r\n\r\nOUT = []\r\nfor rooms in IN[0]:\r\n  if len(rooms) != 1:\r\n    continue\r\n  adjacentRooms = rooms[0]\r\n  out = set()\r\n  for adjacentRoom in adjacentRooms[1:]:\r\n    el = UnwrapElement(adjacentRoom)\r\n    param = { p.Definition.Name: p.AsString() for p in el.Parameters if p.AsString() }\r\n    #text = \"/\".join([param[\"Level\"], param[\"Name\"], param[\"Number\"}, param[\"IfcGUID\"])\r\n    #text = \"/\".join([param[\"Level\"], param[\"Number\"]])\r\n    text=param[\"IfcGUID\"]\r\n    out.add(text)\r\n  el = UnwrapElement(adjacentRooms[0])\r\n  param = { p.Definition.Name: p.AsString() for p in el.Parameters if p.AsString() }\r\n  #text = \"/\".join([param[\"Level\"], param[\"Number\"]])\r\n  text=param[\"IfcGUID\"]\r\n  out.remove(text)\r\n  OUT.append([text] + list(out))\r\n\r\n",
+      "VariableInputPorts": true,
+      "Id": "5bbfc54441074942a0abc8cf151116f7",
+      "Inputs": [
+        {
+          "Id": "2d2a9fb905af4a56994c3b89d1a697f2",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2204567928a84461aab39ef563c57ca4",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSOffice.Data.ExportCSV@string,var[][]",
+      "Id": "690919109bd843c7b755cf319d97daeb",
+      "Inputs": [
+        {
+          "Id": "e5effb40899448f5951c4752ecf40295",
+          "Name": "filePath",
+          "Description": "Path to write to\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b755ff7f6dfd4aec81bfc616c1478d0a",
+          "Name": "data",
+          "Description": "List of lists to write into CSV\n\nvar[][]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8f918a9d2cbd44c88cdd449c557280c4",
+          "Name": "void",
+          "Description": "void",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Write a list of lists into a file using a comma-separated values format. Outer list represents rows, inner lists represent columns.\n\nData.ExportCSV (filePath: string, data: var[][]): void"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "C:\\Users\\maxime.lefrancois\\Seafile\\Bâtiment Intelligent FAYOL\\ifc\\230408_Mines_Maquette_numerique\\schedules\\adjacency_guid.csv",
+      "Id": "80432f98dcef43d8869161458049ebf9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "dc3fd3a038304b729e1689c76f5a6c8f",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "6fffd9091eda4d17b6e794bea4c9cb6e",
+      "End": "09a2a4ce469d429da2b9c72e10db10ee",
+      "Id": "6a0dd1044fc645d7b3ce7a7bcc593cdc"
+    },
+    {
+      "Start": "250f775f78514d329e4dd37fad659b98",
+      "End": "8cea8c13d0cd43e8a3ee41bc572143ee",
+      "Id": "fdc0e4a25ca64dcfb92f6590b00cc3c7"
+    },
+    {
+      "Start": "250f775f78514d329e4dd37fad659b98",
+      "End": "6ca33c2d3e824952a919b3921f0f57d0",
+      "Id": "56785e58e9a4489e93399938f9baf326"
+    },
+    {
+      "Start": "250f775f78514d329e4dd37fad659b98",
+      "End": "7c56b6a5207d409a802a0f703d6b2a6e",
+      "Id": "c66d1e828bb442cc8a91327854241682"
+    },
+    {
+      "Start": "24b2983d3bb1478aaeb0f9c5e3694756",
+      "End": "5fbe0d0bdc604b12b7a31d4ff352344d",
+      "Id": "564118707ef04660a53eab0822312bc2"
+    },
+    {
+      "Start": "5c456940bc30479da84fea6f7b9324d1",
+      "End": "2d2a9fb905af4a56994c3b89d1a697f2",
+      "Id": "236055b8aeff4cc5b54763ae4909d3d6"
+    },
+    {
+      "Start": "2204567928a84461aab39ef563c57ca4",
+      "End": "b755ff7f6dfd4aec81bfc616c1478d0a",
+      "Id": "7ab7c8ff48594e1d95b61973e5d0713e"
+    },
+    {
+      "Start": "dc3fd3a038304b729e1689c76f5a6c8f",
+      "End": "e5effb40899448f5951c4752ecf40295",
+      "Id": "9f75902e4c9a446f9604aadf1feab8d2"
+    }
+  ],
+  "Dependencies": [
+    "12c4cde0-3fe8-4a48-ae7e-74202be5c2b8"
+  ],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "SteamNodes",
+      "Version": "1.2.4",
+      "ReferenceType": "Package",
+      "Nodes": [
+        "37b6abf3a16a454981ef7db51c8074c6"
+      ]
+    }
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.6.1.8786",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Default Camera",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Categories",
+        "Id": "745fab10c6df46a580626b0f67ad4575",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2042.1848287229475,
+        "Y": 129.4035633348382
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "All Elements of Category",
+        "Id": "7fc452c7928e4516a4689ad62d9e1f91",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1855.5928967196139,
+        "Y": 126.34673996273477
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "b8c83b2bbfb14ffc895c5b57f7829484",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1575.9564894547152,
+        "Y": 197.60667035154873
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Tool.GetSurroundingElements",
+        "Id": "37b6abf3a16a454981ef7db51c8074c6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1462.2934455016605,
+        "Y": 118.81277134148777
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "FamilyType.Name",
+        "Id": "9dbca79385754236820576b3597c1682",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1577.3287939359222,
+        "Y": 320.44524048192454
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "5bbfc54441074942a0abc8cf151116f7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -965.45429766742586,
+        "Y": 329.48718814631684
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Data.ExportCSV",
+        "Id": "690919109bd843c7b755cf319d97daeb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -659.46867556239658,
+        "Y": 132.20680251903602
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "String",
+        "Id": "80432f98dcef43d8869161458049ebf9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1023.7834867303684,
+        "Y": 61.420245944948164
+      }
+    ],
+    "Annotations": [],
+    "X": 2127.135305813365,
+    "Y": 33.028458771248381,
+    "Zoom": 1.2270473614083373
+  }
+}

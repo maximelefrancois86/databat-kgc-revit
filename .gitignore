@@ -1,0 +1,11 @@
+lbd/*
+!lbd/MINES_TCE_DOE_2021_LBD.ttl
+lib
+public
+rvt/*
+#!rvt/MINES_TCE_DOE_2021.rvt
+!rvt/IFCExportConfiguration_IFC4 Design Transfer View.json
+!rvt/RoomAdjacenciesByLevel.dyn
+!rvt/IFCtoLBD-Desktop_Java_15_options_used.png
+__pycache__
+temp

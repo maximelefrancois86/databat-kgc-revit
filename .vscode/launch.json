@@ -1,0 +1,79 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "repareCharacters",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/1_repareCharacters.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["lbd/MINES_TCE_DOE_2021_LBD.ttl", "temp/0_MINES_TCE_DOE_2021_LBD.ttl"]
+        },
+        {
+            "name": "pruneObjects",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/2_pruneObjects.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["temp/0_MINES_TCE_DOE_2021_LBD.ttl", "temp/1_objects_pruned.ttl", "https://ci.mines-stetienne.fr/"]
+        },
+        {
+            "name": "transformObjects",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/3_transformObjects.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["temp/1_objects_pruned.ttl", "temp/2_objects_transformed.ttl", "https://ci.mines-stetienne.fr/"]
+        },
+        {
+            "name": "renameObjects",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/4_renameObjects.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["temp/2_objects_transformed.ttl", "temp/3_objects_renamed.ttl", "https://ci.mines-stetienne.fr/"]
+        },
+        {
+            "name": "readSchedules",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/5_readSchedules.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["temp/3_objects_renamed.ttl", "temp/4_schedules.ttl", "https://ci.mines-stetienne.fr/"]
+        },
+        {
+            "name": "addProperties",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/6_addProperties.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["temp/4_schedules.ttl", "temp/5_properties.ttl", "https://ci.mines-stetienne.fr/"]
+        },
+        {
+            "name": "storeTurtleFiles",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/7_storeTurtleFiles.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["temp/5_properties.ttl", "https://ci.mines-stetienne.fr/"]
+        }
+    ]
+}

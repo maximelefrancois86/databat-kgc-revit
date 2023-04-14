@@ -1,0 +1,45 @@
+@prefix coswot: <https://w3id.org/coswot/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+coswot:Door a owl:Class .
+coswot:Furniture a owl:Class .
+coswot:Device a owl:Class .
+coswot:Wall a owl:Class .
+coswot:Window a owl:Class .
+
+coswot:UniformatAssemblyCode a owl:Class .
+coswot:hasUniformatAssemblyCode a owl:ObjectProperty .
+
+coswot:canWalkTo a owl:ObjectProperty .
+coswot:category a owl:ObjectProperty .
+
+coswot:CarbondioxydeconcentrationProperty a owl:Class .
+coswot:hasCarbondioxydeconcentrationProperty a owl:ObjectProperty .
+
+coswot:OpencloseProperty a owl:Class .
+coswot:hasOpencloseProperty a owl:ObjectProperty .
+
+coswot:RelativehumidityProperty a owl:Class .
+coswot:hasRelativehumidityProperty a owl:ObjectProperty .
+
+coswot:TemperatureProperty a owl:Class .
+coswot:hasTemperatureProperty a owl:ObjectProperty .
+
+coswot:KNXAddress a owl:DatatypeProperty .
+
+coswot:hasAreaStableValue a owl:DatatypeProperty .
+coswot:hasDimensionsStableValue a owl:DatatypeProperty .
+coswot:hasElevationStableValue a owl:DatatypeProperty .
+coswot:hasHeatTransferCoefficientStableValue a owl:DatatypeProperty .
+coswot:hasHeightStableValue a owl:DatatypeProperty .
+coswot:hasLengthStableValue a owl:DatatypeProperty .
+coswot:hasOverallHeightStableValue a owl:DatatypeProperty .
+coswot:hasOverallWidthStableValue a owl:DatatypeProperty .
+coswot:hasPerimeterStableValue a owl:DatatypeProperty .
+coswot:hasThermalMassStableValue a owl:DatatypeProperty .
+coswot:hasThermalResistanceStableValue a owl:DatatypeProperty .
+coswot:hasThicknessStableValue a owl:DatatypeProperty .
+coswot:hasUnboundedHeightStableValue a owl:DatatypeProperty .
+coswot:hasVolumeStableValue a owl:DatatypeProperty .
+coswot:hasWidthStableValue a owl:DatatypeProperty .
