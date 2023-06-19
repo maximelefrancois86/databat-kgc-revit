@@ -4,7 +4,7 @@ Knowledge Graph construction from the Revit 3D model of a building
 
 The scripts in this repository are used to generate a knowledge graph with entry point https://ci.mines-stetienne.fr/emse 
 
-This knowledge publicly documents the model of Espace Fauriel Building at Mines Saint-Étienne, using the Building Topology Ontology. 
+This knowledge publicly documents [the model of Espace Fauriel Building at Mines Saint-Étienne](https://ci.mines-stetienne.fr/EMSE_EF/), using the Building Topology Ontology. 
 
 # How to reproduce
 
