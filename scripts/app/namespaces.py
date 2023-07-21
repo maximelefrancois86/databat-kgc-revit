@@ -26,6 +26,12 @@ class CDT(DefinedNamespace):
     _fail = True
     ucum: URIRef
     _NS = Namespace("https://w3id.org/cdt/")
+    
+    
+class SCHEMA(DefinedNamespace):
+    _fail = False
+    _NS = Namespace("https://schema.org/")
+    
 
 namespaceManager = NamespaceManager(Graph())
 namespaceManager.bind("props", PROPS._NS)

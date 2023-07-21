@@ -23,6 +23,9 @@ temp/5_properties.ttl: temp/4_schedules.ttl
 public: temp/5_properties.ttl
 	python3 scripts/7_storeTurtleFiles.py temp/5_properties.ttl  https://ci.mines-stetienne.fr/
 
+public: temp/5_properties.ttl
+	python3 scripts/8_storeHiddenLabels.py temp/5_properties.ttl  https://ci.mines-stetienne.fr/
+
 public/emse/.htaccess: temp
 	printf "DirectoryIndex index.ttl\nOptions +Indexes +MultiViews" > public/emse/.htaccess
 

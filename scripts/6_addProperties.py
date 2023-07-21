@@ -4,8 +4,9 @@ from app.namespaces import *
 
 def expand(propertyList):
     for property in propertyList:
-        p = URIRef(f"{COSWOT._NS}has{property.title()}Property")
-        c = URIRef(f"{COSWOT._NS}{property.title()}Property")
+        title = property[:1].title() + property[1:]
+        p = URIRef(f"{COSWOT._NS}has{title}Property")
+        c = URIRef(f"{COSWOT._NS}{title}Property")
         yield (property, p, c)
 
 
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     spaceProperties = ["temperature", "relativeHumidity", "carbonDioxydeConcentration"]
     for space, in graph.query("""SELECT ?space WHERE { { ?space a bot:Building } UNION { ?space a bot:Storey } UNION { ?space a bot:Zone } UNION { ?space a bot:Space } }"""):
         for name,p,c in expand(spaceProperties):
-            o = URIRef(f"{space}#{name}")
+            o = URIRef(f"{space}{name}")
             graph.add((space, p, o))
             graph.add((o, RDF.type, c))
 
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     openableProperties = [ "openClose" ]
     for element, in graph.query("""SELECT ?openable WHERE { { ?openable a coswot:Door } UNION { ?openable a coswot:Window } }"""):
         for name,p,c in expand(openableProperties):
-            o = URIRef(f"{element}#{name}")
+            o = URIRef(f"{element}{name}")
             graph.add((element, p, o))
             graph.add((o, RDF.type, c))
 

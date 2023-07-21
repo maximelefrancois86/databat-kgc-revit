@@ -74,6 +74,15 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["temp/5_properties.ttl", "https://ci.mines-stetienne.fr/"]
+        },
+        {
+            "name": "storeHiddenLabels",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/8_storeHiddenLabels.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["temp/5_properties.ttl", "https://ci.mines-stetienne.fr/"]
         }
     ]
 }

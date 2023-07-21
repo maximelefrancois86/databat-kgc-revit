@@ -12,28 +12,28 @@ def rename(graph:Graph, base:str):
                                                 rdfs:label ?name 
                                             BIND(encode_for_uri(?name) as ?iri_name)
                                         }"""):
-        replacements[site] = URIRef(f"{site_name}", base=base)
+        replacements[site] = URIRef(f"{site_name}#", base=base)
         for building, building_name in graph.query("""SELECT ?building ?iri_name WHERE { 
                                                         ?site bot:hasBuilding ?building . 
                                                         ?building a bot:Building ; 
                                                             rdfs:label ?name . 
                                                         BIND(encode_for_uri(?name) as ?iri_name)
                                                     }""", initBindings={'site': site }):
-            replacements[building] = URIRef(f"{site_name}/{building_name}", base=base)
+            replacements[building] = URIRef(f"{site_name}/{building_name}#", base=base)
             for storey, storey_name in graph.query("""SELECT ?storey ?iri_name WHERE {
                                                         ?building bot:hasStorey ?storey . 
                                                         ?storey a bot:Storey ; 
                                                             rdfs:label ?name .
                                                         BIND(encode_for_uri(?name) as ?iri_name)
                                                     }""", initBindings={'building': building }):
-                replacements[storey] = URIRef(f"{site_name}/{building_name}/{storey_name}", base=base)
+                replacements[storey] = URIRef(f"{site_name}/{building_name}/{storey_name}#", base=base)
                 for space, space_name in graph.query("""SELECT ?space ?iri_name WHERE { 
                                                         ?storey bot:hasSpace ?space . 
                                                         ?space a bot:Space ; 
                                                             rdfs:label ?name .
                                                         BIND(encode_for_uri(?name) as ?iri_name)
                                                     }""", initBindings={'storey': storey }):
-                    replacements[space] = URIRef(f"{site_name}/{building_name}/{storey_name}/{space_name}", base=base)
+                    replacements[space] = URIRef(f"{site_name}/{building_name}/{storey_name}/{space_name}#", base=base)
     new_graph = Graph(namespace_manager=graph.namespace_manager)
     for s,p,o in graph:
         triple = (replacements.get(s, s), replacements.get(p, p), replacements.get(o, o)) 

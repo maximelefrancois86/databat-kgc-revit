@@ -1,0 +1,17 @@
+@base <https://ci.mines-stetienne.fr/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix org: <http://www.w3.org/ns/org#>.
+@prefix coswot: <https://w3id.org/coswot/>.
+
+<foaf/b54952c3-e4a6-423d-b724-ed9392f6f2a1> a foaf:Document ;
+  foaf:primaryTopic _:example .
+
+_:example a foaf:Person ;
+   foaf:name "Xxx Xxx" ;
+   foaf:img <data:image/png;base64, /.....> ;
+   foaf:phone <tel:+xxxxxxxxxxx> ;
+   foaf:mbox <mailto:xxxxxxxxxxxxxxxx@emse.fr> ;
+   org:memberOf <https://www.imt.fr/>, <https://mines-stetienne.fr/>, <foaf/fayol> ;
+   coswot:worksAtDesk <emse/fayol/4ET/416/BureauD'Angle/1VMOlJ3knDeODu7af36LS_> .
+

@@ -38,30 +38,11 @@ if __name__ == "__main__":
     base = sys.argv[2]
 
     graph.parse(input)
-        
-    named_graphs={}
-    for triple in graph:
-        for t in triple:
-            if isinstance(t, URIRef) and t.startswith(base):
-                
-                key = str(t).split('#')[0]
-                try:
-                    named_graphs[key].add(t)
-                except:
-                    named_graphs[key] = set()
-                    named_graphs[key].add(t)
     
-    for t in sorted(named_graphs.keys()):
-        print(t)
-        g = Graph(namespace_manager=graph.namespace_manager)
-        for x in named_graphs[t]:
-            describe(graph, x, g)
-        path = "public/" + t[len(base):] + ".ttl"
-        os.makedirs(path[:path.rfind("/")], exist_ok = True)
-        g.serialize(path, format="ttl", base=base)
+    hiddenLabels = Graph(namespace_manager=namespaceManager)
+    for triple in graph.triples((None, SKOS.hiddenLabel, None)):
+        hiddenLabels.add(triple)
+    
+    path = "public/emse/hidden.ttl"
+    hiddenLabels.serialize(path, format="ttl", base=base)
     print("done")
-
-    for root, dirs, files in os.walk("public"):
-        for dir in dirs:
-            if f"{dir}.ttl" in files:
-                shutil.copy(f"{root}/{dir}.ttl",f"{root}/{dir}/index.ttl")

@@ -15,7 +15,7 @@ def transformSite(graph:Graph):
     rdfs:label ?siteName ;
     schema:address ?address ;
     dct:title ?projectName ;
-    props:refElevationIfcSite_attribute_simple ?elevation_ucum ;
+    coswot:hasElevationStableValue ?elevation_ucum ;
     geo:hasGeometry [ geo:asWKT ?wkt ] ;
     bot:hasBuilding ?building .
 } WHERE {

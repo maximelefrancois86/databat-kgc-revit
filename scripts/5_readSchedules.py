@@ -9,7 +9,7 @@ from itertools import combinations
 def addAssemblyCode(graph:Graph, iri:URIRef, assemblyCode:str, assemblyDescription:str):
     if not assemblyCode or not assemblyDescription:
         return
-    uniformatAssemblyCode = URIRef(f"kg/uniformat/{assemblyCode}", base=base)
+    uniformatAssemblyCode = URIRef(f"kg/uniformat/{assemblyCode}#", base=base)
     graph.add((iri, COSWOT.hasUniformatAssemblyCode, uniformatAssemblyCode))
     graph.add((uniformatAssemblyCode, RDF.type, COSWOT.UniformatAssemblyCode))
     graph.add((uniformatAssemblyCode, RDFS.label, Literal(assemblyCode)))
@@ -22,9 +22,9 @@ def readScheduleSpace(graph:Graph, base:str):
         next(reader)
         Data = namedtuple("IfcSpace", ["IfcGUID","Level","ZoneName","Number","Name","IfcExportAs","Department","Occupancy","Area","Volume","Perimeter","UnboundedHeight"])
         for data in map(Data._make, reader):
-            iri = URIRef(f"emse/fayol/{data.Level}/{data.Number}", base=base)
-            storey = URIRef(f"emse/fayol/{data.Level}", base=base)
-            zone = URIRef(f"emse/fayol/{data.Level}/{data.ZoneName}", base=base)
+            iri = URIRef(f"emse/fayol/{data.Level}/{data.Number}#", base=base)
+            storey = URIRef(f"emse/fayol/{data.Level}#", base=base)
+            zone = URIRef(f"emse/fayol/{data.Level}/{data.ZoneName}#", base=base)
             g.add((zone, RDF.type, BOT.Zone))
             g.add((storey, BOT.containsZone, zone))
             g.add((zone, BOT.hasSpace, iri))
@@ -56,19 +56,19 @@ def readScheduleDoor(graph:Graph, base:str):
                 print(f"Warning unkown IfcGUID {data.IfcGUID}")
                 continue
             iri = result.bindings[0]["door"]
-            r[iri] = URIRef(f"emse/fayol/{data.Level}/door/{data.IfcGUID}", base=base)
+            r[iri] = URIRef(f"emse/fayol/{data.Level}/door/{data.IfcGUID}#", base=base)
             # ignore family
             # ignore type
             addAssemblyCode(g, iri, data.Assembly_code, data.Assembly_description)
-            level = URIRef(f"emse/fayol/{data.Level}", base=base)
+            level = URIRef(f"emse/fayol/{data.Level}#", base=base)
             g.add((level, BOT.containsElement, iri))
             g.add((iri, COSWOT.hasWidthStableValue, Literal(f"{data.Largeur} m", datatype=CDT.ucum)))
             g.add((iri, COSWOT.hasHeightStableValue, Literal(f"{data.Hauteur} m", datatype=CDT.ucum)))
             if data.From:
-                room = URIRef(f"emse/fayol/{data.Level}/{data.From}", base=base)
+                room = URIRef(f"emse/fayol/{data.Level}/{data.From}#", base=base)
                 g.add((room, BOT.adjacentElement, iri))
             if data.To:
-                room = URIRef(f"emse/fayol/{data.Level}/{data.To}", base=base)
+                room = URIRef(f"emse/fayol/{data.Level}/{data.To}#", base=base)
                 g.add((room, BOT.adjacentElement, iri))
             if data.HeatTransferCoefficient:
                 g.add((iri, COSWOT.hasHeatTransferCoefficientStableValue, Literal(f"{data.HeatTransferCoefficient[:-9]} W/(m2.K)", datatype=CDT.ucum)))
@@ -101,9 +101,9 @@ def readElectricAppliance(graph:Graph, base:str):
             if not len(result):
                 print(f"Warning unkown IfcGUID {data.IfcGUID}")
                 continue
-            room = URIRef(f"emse/fayol/{data.Level}/{data.RoomNumber}", base=base)
+            room = URIRef(f"emse/fayol/{data.Level}/{data.RoomNumber}#", base=base)
             iri = result.bindings[0]["device"]
-            r[iri] = URIRef(f"emse/fayol/{data.Level}/{data.RoomNumber}/device/{data.IfcGUID}", base=base)
+            r[iri] = URIRef(f"emse/fayol/{data.Level}/{data.RoomNumber}/device/{data.IfcGUID}#", base=base)
             g.add((room, BOT.containsElement, iri))
             g.add((iri, OWL.sameAs, URIRef(f"knx/emse/fayol/{data.KNXAddress}")))
             addAssemblyCode(g, iri, data.Assembly_code, data.Assembly_description)
@@ -122,12 +122,12 @@ def readFurniture(graph:Graph, base:str):
                 print(f"Warning unkown IfcGUID {data.IfcGUID}")
                 continue
             if data.RoomNumber:
-                host = URIRef(f"emse/fayol/{data.Level}/{data.RoomNumber}", base=base)
+                host = URIRef(f"emse/fayol/{data.Level}/{data.RoomNumber}#", base=base)
             else:
-                host = URIRef(f"emse/fayol/{data.Level}", base=base)
+                host = URIRef(f"emse/fayol/{data.Level}#", base=base)
             iri = result.bindings[0]["furniture"]
             typ = camel_case(strip_accents(data.Family))
-            r[iri] = URIRef(f"{str(host)}/{typ}/{data.IfcGUID}", base=base)
+            r[iri] = URIRef(f"{str(host)[:-1]}/{typ}/{data.IfcGUID}#", base=base)
             g.add((host, BOT.containsElement, iri))
             addAssemblyCode(g, iri, data.Assembly_code, data.Assembly_description)
     return g, r
@@ -151,9 +151,9 @@ def readWall(graph:Graph, base:str):
             iri = result.bindings[0]["wall"]
             host = result.bindings[0]["host"]
             if host:
-                r[iri] = URIRef(f"{host}/wall/{data.IfcGUID}", base=base)
+                r[iri] = URIRef(f"{host[:-1]}/wall/{data.IfcGUID}#", base=base)
             else:
-                r[iri] = URIRef(f"emse/fayol/wall/{data.IfcGUID}", base=base)
+                r[iri] = URIRef(f"emse/fayol/wall/{data.IfcGUID}#", base=base)
             addAssemblyCode(g, iri, data.Assembly_code, data.Assembly_description)
             if data.HeatTransferCoefficient:
                 g.add((iri, COSWOT.hasHeatTransferCoefficientStableValue, Literal(f"{data.HeatTransferCoefficient[:-9]} W/(m2.K)", datatype=CDT.ucum)))
@@ -177,8 +177,8 @@ def readWall(graph:Graph, base:str):
         if str(label) in guids:
             continue
         if not host:
-            host = URIRef(f"emse/fayol/")
-        r[wall] = URIRef(f"{host}/wall/{label}", base=base)                
+            host = URIRef(f"emse/fayol#")
+        r[wall] = URIRef(f"{host[:-1]}/wall/{label}#", base=base)                
     return g, r
 
     
@@ -197,7 +197,7 @@ def readWindow(graph:Graph, base:str):
                 print(f"Warning unkown IfcGUID {data.IfcGUID}")
                 continue
             iri = result.bindings[0]["window"]
-            r[iri] = URIRef(f"emse/fayol/{data.Level}/window/{data.IfcGUID}", base=base)
+            r[iri] = URIRef(f"emse/fayol/{data.Level}/window/{data.IfcGUID}#", base=base)
             # ignore description
             g.add((iri, COSWOT.hasDimensionsStableValue, Literal(data.Dimensions)))
             if data.ConductiviteThermique:
@@ -209,10 +209,10 @@ def readWindow(graph:Graph, base:str):
             if data.Hauteur:            
                 g.add((iri, COSWOT.hasHeightStableValue, Literal(f"{data.Hauteur} m", datatype=CDT.ucum)))
             if data.From:
-                room = URIRef(f"emse/fayol/{data.Level}/{data.From}", base=base)
+                room = URIRef(f"emse/fayol/{data.Level}/{data.From}#", base=base)
                 g.add((room, BOT.adjacentElement, iri))
             if data.To:
-                room = URIRef(f"emse/fayol/{data.Level}/{data.To}", base=base)
+                room = URIRef(f"emse/fayol/{data.Level}/{data.To}#", base=base)
                 g.add((room, BOT.adjacentElement, iri))
     return g, r
 
